@@ -15,6 +15,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    align-items: center;
 }
 
 .busqueda {
@@ -44,4 +45,65 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}
+.formularioContainer {
+    background-color: #f8f8f8;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.inputFormulario {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.accionesFormulario {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+.boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    padding: 8px 16px;
+    min-height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.botonAgregar {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+}
+.accionesCard {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+.botonEliminar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    min-height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f4c7c7;
+    color: #7a1f1f;
 }
