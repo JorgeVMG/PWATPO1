@@ -105,9 +105,11 @@ const Home = () => {
   // busqueda guarda lo que escribe el usuario en el input.
   // generoSeleccionado guarda el género elegido.
   // tipoSeleccionado guarda si quiere ver todo, películas o series.
+  // ordenSeleccionado guarda como lo queres ordenar (añoAsc, añoDesc, ratingAsc, ratingDesc)
     const [busqueda, setBusqueda] = useState("");
     const [generoSeleccionado, setGeneroSeleccionado] = useState("todos");
     const [tipoSeleccionado, setTipoSeleccionado] = useState("todos");
+    const [ordenSeleccionado, setOrdenSeleccionado] = useState("ninguno");
 
   // FUNCIÓN PARA CAMBIAR ENTRE VISTA Y NO VISTA:
   // Recibe el id de una película, recorre el array con map
@@ -147,17 +149,60 @@ const Home = () => {
     return coincideBusqueda && coincideGenero && coincideTipo;
     });
 
+        // ORDENAMIENTO:
+    // Primero hacemos una copia de peliculasFiltradas con [...peliculasFiltradas]
+    // porque sort() modifica el array original y no queremos cambiar directamente
+    // la lista filtrada.
+    //
+    // Después usamos sort(), que ordena el array comparando de a dos elementos
+    // por vez. En cada comparación, "a" y "b" representan dos películas del array.
+    // La función comparadora no ordena todo sola, sino que le devuelve a sort()
+    // un número para indicarle cuál de las dos debe ir primero.
+    //
+    // - Si el resultado es negativo, "a" va antes que "b".
+    // - Si el resultado es positivo, "b" va antes que "a".
+    // - Si el resultado es 0, sort() las deja como están.
+    //
+    // Por eso:
+    // - a.anio - b.anio ordena de menor a mayor (ascendente).
+    // - b.anio - a.anio ordena de mayor a menor (descendente).
+    // - a.rating - b.rating ordena rating de menor a mayor.
+    // - b.rating - a.rating ordena rating de mayor a menor.
+    //
+    // Finalmente, sort() devuelve un nuevo array ya ordenado, que guardamos
+    // en peliculasOrdenadas para después separar entre vistas y no vistas.
+
+    const peliculasOrdenadas = [...peliculasFiltradas].sort((a, b) =>{
+        if (ordenSeleccionado ==="anioAsc") {
+            return a.anio - b.anio; 
+        }
+        if (ordenSeleccionado ==="anioDesc") {
+            return b.anio - a.anio; 
+        }
+        if (ordenSeleccionado ==="ratingAsc") {
+            return a.rating - b.rating; 
+        }
+        if (ordenSeleccionado ==="ratingDesc") {
+            return b.rating - a.rating; 
+        }
+
+        return 0;
+    });
+
   // SEPARAMOS EN DOS LISTAS:
-  // De las películas ya filtradas, armamos una lista de vistas
+  // De las películas ya ordenadas, armamos una lista de vistas. 
   // y otra lista de no vistas.
-    const peliculasVistas = peliculasFiltradas.filter(
+  // Esto es asi porque peliculas ordenadas ya incluye todo lo de peliculas filtradas pero ademas ordenado.
+    const peliculasVistas = peliculasOrdenadas.filter(
         (pelicula) => pelicula.visto === true
     );
 
-    const peliculasNoVistas = peliculasFiltradas.filter(
+    const peliculasNoVistas = peliculasOrdenadas.filter(
         (pelicula) => pelicula.visto === false
     );
-
+    // className le da el estilo
+    // value muestra el valor actual
+    // onChange guarda la opcion elegida 
     return (
     <div className={styles.homeContainer}>
         <Titulo texto="Gestor de películas y series" />
@@ -175,6 +220,7 @@ const Home = () => {
             </li>
 
             <li>
+                
             <select
                 className={styles.select}
                 value={generoSeleccionado}
@@ -199,6 +245,21 @@ const Home = () => {
                 <option value="pelicula">Película</option>
                 <option value="serie">Serie</option>
             </select>
+            </li>
+
+            <li>
+                
+                <select
+                    className={styles.select}
+                    value={ordenSeleccionado}
+                    onChange={(e) => setOrdenSeleccionado(e.target.value)}>
+                    
+                    <option value="ninguno">Sin orden</option>
+                    <option value="anioAsc">Año ascendente</option>
+                    <option value="anioDesc">Año descendente</option>
+                    <option value="ratingAsc">Rating ascendente</option>
+                    <option value="ratingDesc">Rating descendente</option>
+                </select>
             </li>
         </ul>
         </nav>
