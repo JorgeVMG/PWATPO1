@@ -2,8 +2,10 @@ import { useState } from "react";
 import styles from "./Home.module.css";
 import { CharacterCard } from "../../Components/CharacterCard/CharacterCard";
 import Titulo from "../../Components/Titulo/Titulo";
+import { Filtrado } from "../../Components/Filtros/Filtros";
 
-const Home = () => {
+export const Home = () => {
+
   // ESTADO PRINCIPAL:
   // Acá guardamos todas las películas y series.
   // Como están dentro de useState, React puede volver a renderizar
@@ -99,7 +101,7 @@ const Home = () => {
         tipo: "pelicula",
         visto: false,
     },
-]);
+    ]);
 
   // ESTADOS DE LOS FILTROS:
   // busqueda guarda lo que escribe el usuario en el input.
@@ -112,142 +114,68 @@ const Home = () => {
   // FUNCIÓN PARA CAMBIAR ENTRE VISTA Y NO VISTA:
   // Recibe el id de una película, recorre el array con map
   // y cuando encuentra la correcta, invierte su valor de "visto".
-    const cambiarEstadoVisto = (id) => {
-        const peliculasActualizadas = peliculas.map((pelicula) => {
-        if (pelicula.id === id) {
-            return { ...pelicula, visto: !pelicula.visto };
-    }
-
-        return pelicula;
-    });
-
-    setPeliculas(peliculasActualizadas);
-};
-
   // FILTRO GENERAL:
   // Primero revisa si coincide con la búsqueda.
   // Después revisa si coincide con el género elegido.
   // Después revisa si coincide con el tipo elegido.
   // Solo entra en el array final si cumple todo.
-    const peliculasFiltradas = peliculas.filter((pelicula) => {
-        const textoBuscado = busqueda.toLowerCase();
-
-        const coincideBusqueda =
-            pelicula.titulo.toLowerCase().includes(textoBuscado) ||
-            pelicula.director.toLowerCase().includes(textoBuscado);
-
-    const coincideGenero =
-        generoSeleccionado === "todos" ||
-        pelicula.genero === generoSeleccionado;
-
-    const coincideTipo =
-        tipoSeleccionado === "todos" ||
-        pelicula.tipo === tipoSeleccionado;
-
-    return coincideBusqueda && coincideGenero && coincideTipo;
-    });
-
   // SEPARAMOS EN DOS LISTAS:
   // De las películas ya filtradas, armamos una lista de vistas
   // y otra lista de no vistas.
-    const peliculasVistas = peliculasFiltradas.filter(
-        (pelicula) => pelicula.visto === true
-    );
-
-    const peliculasNoVistas = peliculasFiltradas.filter(
-        (pelicula) => pelicula.visto === false
-    );
 
     return (
-    <div className={styles.homeContainer}>
-        <Titulo texto="Gestor de películas y series" />
+        <div className={styles.homeContainer}>
+            <Titulo texto="Gestor de películas y series" />
 
-        <nav className={styles.barraFiltros}>
-        <ul className={styles.listaFiltros}>
-            <li>
-            <input
-                type="text"
-                value={busqueda}
-                className={styles.busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
-                placeholder="Buscar por titulo o director"
+            <nav className={styles.barraFiltros}>
+            <ul className={styles.listaFiltros}>
+                <li>
+                <input
+                    type="text"
+                    value={busqueda}
+                    className={styles.busqueda}
+                    onChange={(e) => setBusqueda(e.target.value)}
+                    placeholder="Buscar por titulo o director"
+                />
+                </li>
+
+                <li>
+                <select
+                    className={styles.select}
+                    value={generoSeleccionado}
+                    onChange={(e) => setGeneroSeleccionado(e.target.value)}>
+
+                    <option value="todos">Todos los géneros</option>
+                    <option value="Ciencia ficción">Ciencia ficción</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Acción">Acción</option>
+                    <option value="Fantasía">Fantasía</option>
+                    <option value="Comedia">Comedia</option>
+                </select>
+                </li>
+
+                <li>
+                <select
+                    className={styles.select}
+                    value={tipoSeleccionado}
+                    onChange={(e) => setTipoSeleccionado(e.target.value)}
+                >
+                    <option value="todos">Todos los tipos</option>
+                    <option value="pelicula">Película</option>
+                    <option value="serie">Serie</option>
+                </select>
+                </li>
+            </ul>
+            </nav>
+            <Filtrado 
+                peliculas={peliculas} 
+                busqueda={busqueda} 
+                generoSeleccionado={generoSeleccionado} 
+                tipoSeleccionado={tipoSeleccionado} 
+                setPeliculas={setPeliculas}
             />
-            </li>
-
-            <li>
-            <select
-                className={styles.select}
-                value={generoSeleccionado}
-                onChange={(e) => setGeneroSeleccionado(e.target.value)}>
-
-                <option value="todos">Todos los géneros</option>
-                <option value="Ciencia ficción">Ciencia ficción</option>
-                <option value="Drama">Drama</option>
-                <option value="Acción">Acción</option>
-                <option value="Fantasía">Fantasía</option>
-                <option value="Comedia">Comedia</option>
-            </select>
-            </li>
-
-            <li>
-            <select
-                className={styles.select}
-                value={tipoSeleccionado}
-                onChange={(e) => setTipoSeleccionado(e.target.value)}
-            >
-                <option value="todos">Todos los tipos</option>
-                <option value="pelicula">Película</option>
-                <option value="serie">Serie</option>
-            </select>
-            </li>
-        </ul>
-        </nav>
-
-        <section className={styles.seccionLista}>
-        <h2>Películas / series por ver</h2>
-        <p>Total: {peliculasNoVistas.length}</p>
-
-        {peliculasNoVistas.length === 0 ? (
-            <p>No hay contenidos por ver.</p>
-        ) : (
-            peliculasNoVistas.map((pelicula) => (
-            <div key={pelicula.id} className={styles.itemPelicula}>
-                <CharacterCard character={pelicula} />
-
-            <button
-                className={styles.boton}
-                onClick={() => cambiarEstadoVisto(pelicula.id)}>
-
-                Marcar como vista
-            </button>
-            </div>
-        ))
-        )}
-        </section>
-
-        <section className={styles.seccionLista}>
-        <h2>Películas / series vistas</h2>
-        <p>Total: {peliculasVistas.length}</p>
-
-        {peliculasVistas.length === 0 ? (
-            <p>No hay contenidos vistos.</p>
-        ) : (
-            peliculasVistas.map((pelicula) => (
-            <div key={pelicula.id} className={styles.itemPelicula}>
-                <CharacterCard character={pelicula} />
-
-                <button
-                className={styles.boton}
-                onClick={() => cambiarEstadoVisto(pelicula.id)}>
-
-                Marcar como no vista
-                </button>
-            </div>
-        ))
-        )}
-        </section>
-    </div>
-);
+        </div>
+    );
 };
 
 export default Home;
