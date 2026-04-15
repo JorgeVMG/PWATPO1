@@ -24,9 +24,11 @@ export const Filtrado = ({peliculas, busqueda, generoSeleccionado, tipoSeleccion
         setPeliculas(peliculasActualizadas);
     };
     return (
-        <div>
+    <div className={Styles.contenedorListas}>
+        <section className={Styles.columnaLista}>
             <h2>Películas / series por ver</h2>
             <p>Total: {peliculasNoVistas.length}</p>
+
             {peliculasNoVistas.length === 0 ? (
                 <p>No hay contenidos por ver.</p>
             ) : (
@@ -35,14 +37,19 @@ export const Filtrado = ({peliculas, busqueda, generoSeleccionado, tipoSeleccion
                         <CharacterCard character={pelicula} />
                         <button
                             className={Styles.boton}
-                            onClick={() => cambiarEstadoVisto(pelicula.id)}>
+                            onClick={() => cambiarEstadoVisto(pelicula.id)}
+                        >
                             Marcar como vista
                         </button>
                     </div>
                 ))
             )}
+        </section>
+
+        <section className={Styles.columnaLista}>
             <h2>Películas / series vistas</h2>
             <p>Total: {peliculasVistas.length}</p>
+
             {peliculasVistas.length === 0 ? (
                 <p>No hay contenidos vistos.</p>
             ) : (
@@ -51,12 +58,14 @@ export const Filtrado = ({peliculas, busqueda, generoSeleccionado, tipoSeleccion
                         <CharacterCard character={pelicula} />
                         <button
                             className={Styles.boton}
-                            onClick={() => cambiarEstadoVisto(pelicula.id)}>
-                            Marcar como vista
+                            onClick={() => cambiarEstadoVisto(pelicula.id)}
+                        >
+                            Marcar como no vista
                         </button>
                     </div>
                 ))
             )}
-        </div>
-    );
+        </section>
+    </div>
+);
 };
