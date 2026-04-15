@@ -511,19 +511,6 @@ const resetearFormulario = () => {
                     <option value="ratingDesc">Rating descendente</option>
                 </select>
             </li>
-                        <li>
-                <select
-                    className={styles.select}
-                    value={ordenSeleccionado}
-                    onChange={(e) => setOrdenSeleccionado(e.target.value)}
-                >
-                    <option value="ninguno">Sin orden</option>
-                    <option value="anio-asc">Año ascendente</option>
-                    <option value="anio-desc">Año descendente</option>
-                    <option value="rating-asc">Rating ascendente</option>
-                    <option value="rating-desc">Rating descendente</option>
-                </select>
-            </li>
 
             <li>
                 <button
