@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Home.module.css";
 import { CharacterCard } from "../../Components/CharacterCard/CharacterCard";
 import Titulo from "../../Components/Titulo/Titulo";
 import { Filtrado } from "../../Components/Filtros/Filtros";
+import FormularioContenido from "../../Components/FormularioContenido/FormularioContenido";
 
 export const Home = () => {
 
@@ -110,7 +111,11 @@ export const Home = () => {
     const [busqueda, setBusqueda] = useState("");
     const [generoSeleccionado, setGeneroSeleccionado] = useState("todos");
     const [tipoSeleccionado, setTipoSeleccionado] = useState("todos");
-
+    const [mostrarFormulario, setMostrarFormulario] = useState(false);
+     const agregarContenido = (nuevoContenido) => {
+    setPeliculas([...peliculas, nuevoContenido]);
+    setMostrarFormulario(false);
+};
   // FUNCIÓN PARA CAMBIAR ENTRE VISTA Y NO VISTA:
   // Recibe el id de una película, recorre el array con map
   // y cuando encuentra la correcta, invierte su valor de "visto".
@@ -126,6 +131,12 @@ export const Home = () => {
     return (
         <div className={styles.homeContainer}>
             <Titulo texto="Gestor de películas y series" />
+            <Titulo texto="Gestor de películas y series" />
+
+            {mostrarFormulario && (
+                <FormularioContenido onAgregarContenido={agregarContenido} />
+                )}
+            <nav className={styles.barraFiltros}></nav>
 
             <nav className={styles.barraFiltros}>
             <ul className={styles.listaFiltros}>
@@ -165,6 +176,15 @@ export const Home = () => {
                     <option value="serie">Serie</option>
                 </select>
                 </li>
+                
+                <li>
+                <button
+                    className={styles.botonAgregar}
+                    onClick={() => setMostrarFormulario(true)}
+                >
+                    Agregar película
+                </button>
+               </li>
             </ul>
             </nav>
             <Filtrado 
@@ -176,6 +196,7 @@ export const Home = () => {
             />
         </div>
     );
+    
 };
 
 export default Home;
