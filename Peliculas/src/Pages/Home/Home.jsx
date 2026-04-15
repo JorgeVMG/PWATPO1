@@ -1,14 +1,17 @@
-import { useState } from "react";
+// useEffect lo usamos para ejecutar código automático cuando cambia un estado.
+// En este caso, lo necesitamos para guardar las películas en localStorage
+// cada vez que el array "peliculas" se actualiza.
+import { useEffect, useState } from "react";
 import styles from "./Home.module.css";
 import { CharacterCard } from "../../Components/CharacterCard/CharacterCard";
 import Titulo from "../../Components/Titulo/Titulo";
+import { Filtrado } from "../../Components/Filtros/Filtros";
+import FormularioContenido from "../../Components/FormularioContenido/FormularioContenido";
 
-const Home = () => {
-  // ESTADO PRINCIPAL:
-  // Acá guardamos todas las películas y series.
-  // Como están dentro de useState, React puede volver a renderizar
-  // la pantalla cada vez que cambiemos algo.
-    const [peliculas, setPeliculas] = useState([
+// Estas son las películas iniciales por defecto.
+// Se usan solamente si todavía no hay nada guardado en localStorage.
+// O sea: la primera vez que abrimos la app, carga esta lista base.
+const peliculasIniciales = [
     {
         id: 1,
         titulo: "Inception",
@@ -99,7 +102,26 @@ const Home = () => {
         tipo: "pelicula",
         visto: false,
     },
-]);
+];
+
+export const Home = () => {
+
+ // ESTADO PRINCIPAL CON LOCALSTORAGE:
+// Cuando la app arranca, primero intentamos leer si ya hay películas guardadas
+// en localStorage bajo la clave "peliculas".
+// - Si encontramos datos guardados, usamos esos.
+// - Si no hay nada guardado, usamos "peliculasIniciales".
+    const [peliculas, setPeliculas] = useState(() => {
+    const peliculasGuardadas = localStorage.getItem("peliculas");
+
+    if (peliculasGuardadas) {
+        // localStorage guarda texto.
+         // JSON.parse convierte ese texto nuevamente en un array de objetos.
+        return JSON.parse(peliculasGuardadas);
+    }
+
+    return peliculasIniciales;
+});
 
   // ESTADOS DE LOS FILTROS:
   // busqueda guarda lo que escribe el usuario en el input.
@@ -109,6 +131,7 @@ const Home = () => {
     const [busqueda, setBusqueda] = useState("");
     const [generoSeleccionado, setGeneroSeleccionado] = useState("todos");
     const [tipoSeleccionado, setTipoSeleccionado] = useState("todos");
+<<<<<<< axelostrovsky/pwa-11-filtrar-por-vista
     const [ordenSeleccionado, setOrdenSeleccionado] = useState("ninguno");
 
     // Mostrar formulario aparece en false y cuando algreguemos el boton de agregar form se pondra en true 
@@ -125,27 +148,40 @@ const Home = () => {
     tipo: "",
     visto: false
 });
+=======
+    const [mostrarFormulario, setMostrarFormulario] = useState(false);
+
+// FUNCIÓN PARA AGREGAR UNA NUEVA PELÍCULA O SERIE:
+// Recibe el objeto nuevo desde el formulario y lo agrega al array "peliculas".
+// Después cerramos el formulario.
+// Como cambia el estado "peliculas", automáticamente el useEffect
+// vuelve a guardar todo en localStorage.
+     const agregarContenido = (nuevoContenido) => {
+    setPeliculas([...peliculas, nuevoContenido]);
+    setMostrarFormulario(false);
+};
+    // SINCRONIZACIÓN CON LOCALSTORAGE:
+    // Cada vez que cambia el estado "peliculas", guardamos el array actualizado
+    // en localStorage para que no se pierda al refrescar la página.
+    // JSON.stringify transforma el array en texto, que es el formato que
+    // localStorage puede almacenar.
+    useEffect(() => {
+        localStorage.setItem("peliculas", JSON.stringify(peliculas));
+    }, [peliculas]);
+    useEffect(() => {
+        localStorage.setItem("peliculas", JSON.stringify(peliculas));
+    }, [peliculas]);
+>>>>>>> main
 
   // FUNCIÓN PARA CAMBIAR ENTRE VISTA Y NO VISTA:
   // Recibe el id de una película, recorre el array con map
   // y cuando encuentra la correcta, invierte su valor de "visto".
-    const cambiarEstadoVisto = (id) => {
-        const peliculasActualizadas = peliculas.map((pelicula) => {
-        if (pelicula.id === id) {
-            return { ...pelicula, visto: !pelicula.visto };
-    }
-
-        return pelicula;
-    });
-
-    setPeliculas(peliculasActualizadas);
-};
-
   // FILTRO GENERAL:
   // Primero revisa si coincide con la búsqueda.
   // Después revisa si coincide con el género elegido.
   // Después revisa si coincide con el tipo elegido.
   // Solo entra en el array final si cumple todo.
+<<<<<<< axelostrovsky/pwa-11-filtrar-por-vista
     const peliculasFiltradas = peliculas.filter((pelicula) => {
         const textoBuscado = busqueda.toLowerCase();
 
@@ -204,9 +240,12 @@ const Home = () => {
         return 0;
     });
 
+=======
+>>>>>>> main
   // SEPARAMOS EN DOS LISTAS:
   // De las películas ya ordenadas, armamos una lista de vistas. 
   // y otra lista de no vistas.
+<<<<<<< axelostrovsky/pwa-11-filtrar-por-vista
   // Esto es asi porque peliculas ordenadas ya incluye todo lo de peliculas filtradas pero ademas ordenado.
     const peliculasVistas = peliculasOrdenadas.filter(
         (pelicula) => pelicula.visto === true
@@ -215,6 +254,8 @@ const Home = () => {
     const peliculasNoVistas = peliculasOrdenadas.filter(
         (pelicula) => pelicula.visto === false
     );
+=======
+>>>>>>> main
 
 // MANEJO DE CAMBIOS DEL FORMULARIO:
 // Esta función sirve para actualizar cualquier campo del formulario con un solo onChange.
@@ -368,6 +409,7 @@ const resetearFormulario = () => {
     // value muestra el valor actual
     // onChange guarda la opcion elegida 
     return (
+<<<<<<< axelostrovsky/pwa-11-filtrar-por-vista
     <div className={styles.homeContainer}>
         <Titulo texto="Gestor de películas y series" />
                         {mostrarFormulario && (
@@ -596,6 +638,75 @@ const resetearFormulario = () => {
         </section>
     </div>
 );
+=======
+        <div className={styles.homeContainer}>
+            <Titulo texto="Gestor de películas y series" />
+
+            {mostrarFormulario && (
+                <FormularioContenido onAgregarContenido={agregarContenido} />
+                )}
+            <nav className={styles.barraFiltros}></nav>
+
+            <nav className={styles.barraFiltros}>
+            <ul className={styles.listaFiltros}>
+                <li>
+                <input
+                    type="text"
+                    value={busqueda}
+                    className={styles.busqueda}
+                    onChange={(e) => setBusqueda(e.target.value)}
+                    placeholder="Buscar por titulo o director"
+                />
+                </li>
+
+                <li>
+                <select
+                    className={styles.select}
+                    value={generoSeleccionado}
+                    onChange={(e) => setGeneroSeleccionado(e.target.value)}>
+
+                    <option value="todos">Todos los géneros</option>
+                    <option value="Ciencia ficción">Ciencia ficción</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Acción">Acción</option>
+                    <option value="Fantasía">Fantasía</option>
+                    <option value="Comedia">Comedia</option>
+                </select>
+                </li>
+
+                <li>
+                <select
+                    className={styles.select}
+                    value={tipoSeleccionado}
+                    onChange={(e) => setTipoSeleccionado(e.target.value)}
+                >
+                    <option value="todos">Todos los tipos</option>
+                    <option value="pelicula">Película</option>
+                    <option value="serie">Serie</option>
+                </select>
+                </li>
+                
+                <li>
+                <button
+                    className={styles.botonAgregar}
+                    onClick={() => setMostrarFormulario(true)}
+                >
+                    Agregar película
+                </button>
+               </li>
+            </ul>
+            </nav>
+            <Filtrado 
+                peliculas={peliculas} 
+                busqueda={busqueda} 
+                generoSeleccionado={generoSeleccionado} 
+                tipoSeleccionado={tipoSeleccionado} 
+                setPeliculas={setPeliculas}
+            />
+        </div>
+    );
+    
+>>>>>>> main
 };
 
 export default Home;

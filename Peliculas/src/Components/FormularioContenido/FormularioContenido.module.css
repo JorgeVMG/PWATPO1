@@ -1,0 +1,35 @@
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: #f8f8f8;
+    margin-bottom: 24px;
+}
+
+.subtitulo {
+    margin: 0 0 8px 0;
+}
+
+.input,
+.select {
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.boton {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: #222;
+    color: white;
+    cursor: pointer;
+}
+
+.boton:hover {
+    opacity: 0.9;
+}
