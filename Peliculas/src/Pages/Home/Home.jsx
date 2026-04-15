@@ -1,16 +1,17 @@
-import { useState } from "react";
+// useEffect lo usamos para ejecutar código automático cuando cambia un estado.
+// En este caso, lo necesitamos para guardar las películas en localStorage
+// cada vez que el array "peliculas" se actualiza.
+import { useEffect, useState } from "react";
 import styles from "./Home.module.css";
 import { CharacterCard } from "../../Components/CharacterCard/CharacterCard";
 import Titulo from "../../Components/Titulo/Titulo";
 import { Filtrado } from "../../Components/Filtros/Filtros";
+import FormularioContenido from "../../Components/FormularioContenido/FormularioContenido";
 
-export const Home = () => {
-
-  // ESTADO PRINCIPAL:
-  // Acá guardamos todas las películas y series.
-  // Como están dentro de useState, React puede volver a renderizar
-  // la pantalla cada vez que cambiemos algo.
-    const [peliculas, setPeliculas] = useState([
+// Estas son las películas iniciales por defecto.
+// Se usan solamente si todavía no hay nada guardado en localStorage.
+// O sea: la primera vez que abrimos la app, carga esta lista base.
+const peliculasIniciales = [
     {
         id: 1,
         titulo: "Inception",
@@ -101,7 +102,26 @@ export const Home = () => {
         tipo: "pelicula",
         visto: false,
     },
-    ]);
+];
+
+export const Home = () => {
+
+ // ESTADO PRINCIPAL CON LOCALSTORAGE:
+// Cuando la app arranca, primero intentamos leer si ya hay películas guardadas
+// en localStorage bajo la clave "peliculas".
+// - Si encontramos datos guardados, usamos esos.
+// - Si no hay nada guardado, usamos "peliculasIniciales".
+    const [peliculas, setPeliculas] = useState(() => {
+    const peliculasGuardadas = localStorage.getItem("peliculas");
+
+    if (peliculasGuardadas) {
+        // localStorage guarda texto.
+         // JSON.parse convierte ese texto nuevamente en un array de objetos.
+        return JSON.parse(peliculasGuardadas);
+    }
+
+    return peliculasIniciales;
+});
 
   // ESTADOS DE LOS FILTROS:
   // busqueda guarda lo que escribe el usuario en el input.
@@ -110,6 +130,28 @@ export const Home = () => {
     const [busqueda, setBusqueda] = useState("");
     const [generoSeleccionado, setGeneroSeleccionado] = useState("todos");
     const [tipoSeleccionado, setTipoSeleccionado] = useState("todos");
+    const [mostrarFormulario, setMostrarFormulario] = useState(false);
+
+// FUNCIÓN PARA AGREGAR UNA NUEVA PELÍCULA O SERIE:
+// Recibe el objeto nuevo desde el formulario y lo agrega al array "peliculas".
+// Después cerramos el formulario.
+// Como cambia el estado "peliculas", automáticamente el useEffect
+// vuelve a guardar todo en localStorage.
+     const agregarContenido = (nuevoContenido) => {
+    setPeliculas([...peliculas, nuevoContenido]);
+    setMostrarFormulario(false);
+};
+    // SINCRONIZACIÓN CON LOCALSTORAGE:
+    // Cada vez que cambia el estado "peliculas", guardamos el array actualizado
+    // en localStorage para que no se pierda al refrescar la página.
+    // JSON.stringify transforma el array en texto, que es el formato que
+    // localStorage puede almacenar.
+    useEffect(() => {
+        localStorage.setItem("peliculas", JSON.stringify(peliculas));
+    }, [peliculas]);
+    useEffect(() => {
+        localStorage.setItem("peliculas", JSON.stringify(peliculas));
+    }, [peliculas]);
 
   // FUNCIÓN PARA CAMBIAR ENTRE VISTA Y NO VISTA:
   // Recibe el id de una película, recorre el array con map
@@ -126,6 +168,11 @@ export const Home = () => {
     return (
         <div className={styles.homeContainer}>
             <Titulo texto="Gestor de películas y series" />
+
+            {mostrarFormulario && (
+                <FormularioContenido onAgregarContenido={agregarContenido} />
+                )}
+            <nav className={styles.barraFiltros}></nav>
 
             <nav className={styles.barraFiltros}>
             <ul className={styles.listaFiltros}>
@@ -165,6 +212,15 @@ export const Home = () => {
                     <option value="serie">Serie</option>
                 </select>
                 </li>
+                
+                <li>
+                <button
+                    className={styles.botonAgregar}
+                    onClick={() => setMostrarFormulario(true)}
+                >
+                    Agregar película
+                </button>
+               </li>
             </ul>
             </nav>
             <Filtrado 
@@ -176,6 +232,7 @@ export const Home = () => {
             />
         </div>
     );
+    
 };
 
 export default Home;
