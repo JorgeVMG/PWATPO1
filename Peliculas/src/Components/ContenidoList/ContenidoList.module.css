@@ -1,0 +1,51 @@
+.columnaLista {
+    margin-bottom: 32px;
+}
+
+.itemPelicula {
+    margin-bottom: 16px;
+}
+
+.accionesCard {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    min-height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.botonEliminar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    min-height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f8d7da;
+    color: #842029;
+}
+.resumenGeneros {
+    margin: 10px 0 16px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.generoItem {
+    margin: 0;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+}
