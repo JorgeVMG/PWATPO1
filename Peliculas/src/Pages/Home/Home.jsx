@@ -168,6 +168,14 @@ export const Home = () => {
         localStorage.setItem("peliculas", JSON.stringify(peliculas));
     }, [peliculas]);
 
+    const peliculasVistasOriginales = peliculas.filter(
+    (pelicula) => pelicula.visto === true
+    );
+
+    const peliculasNoVistasOriginales = peliculas.filter(
+        (pelicula) => pelicula.visto === false
+    );
+
   // FUNCIÓN PARA CAMBIAR ENTRE VISTA Y NO VISTA:
   // Recibe el id de una película, recorre el array con map
   // y cuando encuentra la correcta, invierte su valor de "visto".
@@ -245,7 +253,16 @@ export const Home = () => {
     const peliculasNoVistas = peliculasOrdenadas.filter(
         (pelicula) => pelicula.visto === false
     );
-    
+
+    const mensajeNoVistas =
+    peliculasNoVistasOriginales.length === 0
+        ? "No hay contenidos por ver."
+        : "No hay resultados por ver con los filtros actuales.";
+
+    const mensajeVistas =
+        peliculasVistasOriginales.length === 0
+            ? "No hay contenidos vistos."
+            : "No hay resultados vistos con los filtros actuales.";
 // CONTADOR POR GÉNERO:
 // Esta función recibe una lista de películas/series y arma un objeto
 // con la cantidad de contenidos que hay por cada género.
@@ -462,6 +479,7 @@ export const Home = () => {
                 titulo="Películas / series por ver"
                 peliculas={peliculasNoVistas}
                 conteoGeneros={conteoGenerosNoVistas}
+                mensajeVacio={mensajeNoVistas}
                 textoBotonVisto="Marcar como vista"
                 onCambiarEstado={cambiarEstadoVisto}
                 onEditar={abrirFormularioEditar}
@@ -472,81 +490,14 @@ export const Home = () => {
                 titulo="Películas / series vistas"
                 peliculas={peliculasVistas}
                 conteoGeneros={conteoGenerosVistas}
+                mensajeVacio={mensajeVistas}
                 textoBotonVisto="Marcar como no vista"
                 onCambiarEstado={cambiarEstadoVisto}
                 onEditar={abrirFormularioEditar}
                 onEliminar={eliminarContenido}
             />
         </div>
-    );{/** 
-        <div className={styles.homeContainer}>
-            <Titulo texto="Gestor de películas y series" />
-
-            {mostrarFormulario && (
-                <FormularioContenido onAgregarContenido={agregarContenido} />
-                )}
-            <nav className={styles.barraFiltros}></nav>
-
-            <nav className={styles.barraFiltros}>
-            <ul className={styles.listaFiltros}>
-                <li>
-                <input
-                    type="text"
-                    value={busqueda}
-                    className={styles.busqueda}
-                    onChange={(e) => setBusqueda(e.target.value)}
-                    placeholder="Buscar por titulo o director"
-                />
-                </li>
-
-                <li>
-                <select
-                    className={styles.select}
-                    value={generoSeleccionado}
-                    onChange={(e) => setGeneroSeleccionado(e.target.value)}>
-
-                    <option value="todos">Todos los géneros</option>
-                    <option value="Ciencia ficción">Ciencia ficción</option>
-                    <option value="Drama">Drama</option>
-                    <option value="Acción">Acción</option>
-                    <option value="Fantasía">Fantasía</option>
-                    <option value="Comedia">Comedia</option>
-                </select>
-                </li>
-
-                <li>
-                <select
-                    className={styles.select}
-                    value={tipoSeleccionado}
-                    onChange={(e) => setTipoSeleccionado(e.target.value)}
-                >
-                    <option value="todos">Todos los tipos</option>
-                    <option value="pelicula">Película</option>
-                    <option value="serie">Serie</option>
-                </select>
-                </li>
-                
-                <li>
-                <button
-                    className={styles.botonAgregar}
-                    onClick={() => setMostrarFormulario(true)}
-                >
-                    Agregar película
-                </button>
-               </li>
-            </ul>
-            </nav>
-            <Filtrado 
-                peliculas={peliculas} 
-                busqueda={busqueda} 
-                generoSeleccionado={generoSeleccionado} 
-                tipoSeleccionado={tipoSeleccionado} 
-                setPeliculas={setPeliculas}
-            />
-        </div>
     );
-    
-};*/}
 }
 
 export default Home

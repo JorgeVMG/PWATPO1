@@ -5,6 +5,7 @@ const ContenidoList = ({
     titulo,
     peliculas,
     conteoGeneros,
+    mensajeVacio,
     textoBotonVisto,
     onCambiarEstado,
     onEditar,
@@ -39,7 +40,7 @@ const ContenidoList = ({
             )}
 
             {peliculas.length === 0 ? (
-                <p>No hay contenidos en esta lista.</p>
+                <p>{mensajeVacio}</p>
             ) : (
                 peliculas.map((pelicula) => (
                     <div key={pelicula.id} className={styles.itemPelicula}>
