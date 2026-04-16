@@ -36,3 +36,16 @@
     background-color: #f8d7da;
     color: #842029;
 }
+.resumenGeneros {
+    margin: 10px 0 16px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.generoItem {
+    margin: 0;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+}

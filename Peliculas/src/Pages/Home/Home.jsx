@@ -245,6 +245,36 @@ export const Home = () => {
     const peliculasNoVistas = peliculasOrdenadas.filter(
         (pelicula) => pelicula.visto === false
     );
+    
+// CONTADOR POR GÉNERO:
+// Esta función recibe una lista de películas/series y arma un objeto
+// con la cantidad de contenidos que hay por cada género.
+//
+// Primero crea un objeto vacío llamado "conteo".
+// Después recorre la lista con forEach().
+// En cada película:
+// - toma su género
+// - si ese género ya existe en el objeto, le suma 1
+// - si no existe, lo crea con valor 1
+//
+// Al final devuelve el objeto completo con el resumen por género.
+    const contarPorGenero = (lista) => {
+    const conteo = {};
+
+    lista.forEach((pelicula) => {
+        const genero = pelicula.genero;
+
+        if (conteo[genero]) {
+            conteo[genero] = conteo[genero] + 1;
+        } else {
+            conteo[genero] = 1;
+        }
+    });
+
+    return conteo;
+};
+    const conteoGenerosNoVistas = contarPorGenero(peliculasNoVistas);
+    const conteoGenerosVistas = contarPorGenero(peliculasVistas);
 
     // MANEJO DE CAMBIOS DEL FORMULARIO:
     // Esta función sirve para actualizar cualquier campo del formulario con un solo onChange.
@@ -431,6 +461,7 @@ export const Home = () => {
             <ContenidoList
                 titulo="Películas / series por ver"
                 peliculas={peliculasNoVistas}
+                conteoGeneros={conteoGenerosNoVistas}
                 textoBotonVisto="Marcar como vista"
                 onCambiarEstado={cambiarEstadoVisto}
                 onEditar={abrirFormularioEditar}
@@ -440,6 +471,7 @@ export const Home = () => {
             <ContenidoList
                 titulo="Películas / series vistas"
                 peliculas={peliculasVistas}
+                conteoGeneros={conteoGenerosVistas}
                 textoBotonVisto="Marcar como no vista"
                 onCambiarEstado={cambiarEstadoVisto}
                 onEditar={abrirFormularioEditar}
