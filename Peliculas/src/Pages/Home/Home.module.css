@@ -74,35 +74,3 @@
     gap: 12px;
     margin-top: 8px;
 }
-.boton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    padding: 8px 16px;
-    min-height: 40px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-.accionesCard {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-}
-.botonEliminar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    padding: 8px 16px;
-    min-height: 40px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: #f4c7c7;
-    color: #7a1f1f;
-}

@@ -3,18 +3,16 @@
 // cada vez que el array "peliculas" se actualiza.
 import { useEffect, useState } from "react";
 import styles from "./Home.module.css";
-import { CharacterCard } from "../../Components/CharacterCard/CharacterCard";
 import Titulo from "../../Components/Titulo/Titulo";
-import { Filtrado } from "../../Components/Filtros/Filtros";
+import ContenidoList from "../../Components/ContenidoList/ContenidoList";
 import FormularioContenido from "../../Components/FormularioContenido/FormularioContenido";
+import FilterBar from "../../Components/FilterBar/FilterBar";
 
 // Estas son las películas iniciales por defecto.
 // Se usan solamente si todavía no hay nada guardado en localStorage.
 // O sea: la primera vez que abrimos la app, carga esta lista base.
 
-
-export const Home = () => {
-    const peliculasIniciales = [
+const peliculasIniciales = [
         {
             id: 1,
             titulo: "Inception",
@@ -106,6 +104,9 @@ export const Home = () => {
             visto: false,
         },
     ];
+
+export const Home = () => {
+    
     // ESTADO PRINCIPAL CON LOCALSTORAGE:
     // Cuando la app arranca, primero intentamos leer si ya hay películas guardadas
     // en localStorage bajo la clave "peliculas".
@@ -162,9 +163,7 @@ export const Home = () => {
     // en localStorage para que no se pierda al refrescar la página.
     // JSON.stringify transforma el array en texto, que es el formato que
     // localStorage puede almacenar.
-    useEffect(() => {
-        localStorage.setItem("peliculas", JSON.stringify(peliculas));
-    }, [peliculas]);
+    
     useEffect(() => {
         localStorage.setItem("peliculas", JSON.stringify(peliculas));
     }, [peliculas]);
@@ -410,198 +409,42 @@ export const Home = () => {
     return (
         <div className={styles.homeContainer}>
             <Titulo texto="Gestor de películas y series" />
-            {mostrarFormulario && (
-                <section className={styles.formularioContainer}>
-                    <h2>{modoEdicion ? "Editar contenido" : "Agregar contenido"}</h2>
-                        <form className={styles.formulario} onSubmit={guardarContenido}>
-                            <input
-                                type="text"
-                                name="titulo"
-                                value={formulario.titulo}
-                                onChange={manejarCambioFormulario}
-                                placeholder="Título"
-                                className={styles.inputFormulario}
-                            />
-                            <input
-                                type="text"
-                                name="director"
-                                value={formulario.director}
-                                onChange={manejarCambioFormulario}
-                                placeholder="Director"
-                                className={styles.inputFormulario}
-                            />
-                            <input
-                                type="number"
-                                name="anio"
-                                value={formulario.anio}
-                                onChange={manejarCambioFormulario}
-                                placeholder="Año"
-                                className={styles.inputFormulario}
-                            />
-                            <select
-                                name="genero"
-                                value={formulario.genero}
-                                onChange={manejarCambioFormulario}
-                                className={styles.inputFormulario}
-                            >
-                                <option value="">Seleccionar género</option>
-                                <option value="Ciencia ficción">Ciencia ficción</option>
-                                <option value="Drama">Drama</option>
-                                <option value="Acción">Acción</option>
-                                <option value="Fantasía">Fantasía</option>
-                                <option value="Comedia">Comedia</option>
-                            </select>
+                <FormularioContenido
+                    mostrarFormulario={mostrarFormulario}
+                    modoEdicion={modoEdicion}
+                    formulario={formulario}
+                    manejarCambioFormulario={manejarCambioFormulario}
+                    cerrarFormulario={cerrarFormulario}
+                    guardarContenido={guardarContenido}/>
 
-                            <input
-                                type="number"
-                                name="rating"
-                                value={formulario.rating}
-                                onChange={manejarCambioFormulario}
-                                placeholder="Rating"
-                                className={styles.inputFormulario}
-                            />
-                            <select
-                                name="tipo"
-                                value={formulario.tipo}
-                                onChange={manejarCambioFormulario}
-                                className={styles.inputFormulario}
-                            >
-                                <option value="">Seleccionar tipo</option>
-                                <option value="pelicula">Película</option>
-                                <option value="serie">Serie</option>
-                            </select>
-                            <div className={styles.accionesFormulario}>
-                                <button type="button" className={styles.boton}onClick={cerrarFormulario}>
-                                    Cancelar
-                                </button>
+                <FilterBar
+                    busqueda={busqueda}
+                    setBusqueda={setBusqueda}
+                    generoSeleccionado={generoSeleccionado}
+                    setGeneroSeleccionado={setGeneroSeleccionado}
+                    tipoSeleccionado={tipoSeleccionado}
+                    setTipoSeleccionado={setTipoSeleccionado}
+                    ordenSeleccionado={ordenSeleccionado}
+                    setOrdenSeleccionado={setOrdenSeleccionado}
+                    abrirFormularioAgregar={abrirFormularioAgregar}/>
 
-                                <button type="submit"className={styles.boton}>
-                                    {modoEdicion ? "Guardar cambios" : "Agregar"}
-                                </button>
-                            </div>
-                        </form>
-                    </section>
-                )}
-            <nav className={styles.barraFiltros}>
-                <ul className={styles.listaFiltros}>
-                    <li>
-                    <input
-                        type="text"
-                        value={busqueda}
-                        className={styles.busqueda}
-                        onChange={(e) => setBusqueda(e.target.value)}
-                        placeholder="Buscar por titulo o director"
-                    />
-                    </li>
+            <ContenidoList
+                titulo="Películas / series por ver"
+                peliculas={peliculasNoVistas}
+                textoBotonVisto="Marcar como vista"
+                onCambiarEstado={cambiarEstadoVisto}
+                onEditar={abrirFormularioEditar}
+                onEliminar={eliminarContenido}
+            />
 
-                    <li>
-                        
-                    <select
-                        className={styles.select}
-                        value={generoSeleccionado}
-                        onChange={(e) => setGeneroSeleccionado(e.target.value)}>
-
-                        <option value="todos">Todos los géneros</option>
-                        <option value="Ciencia ficción">Ciencia ficción</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Acción">Acción</option>
-                        <option value="Fantasía">Fantasía</option>
-                        <option value="Comedia">Comedia</option>
-                    </select>
-                    </li>
-
-                    <li>
-                    <select
-                        className={styles.select}
-                        value={tipoSeleccionado}
-                        onChange={(e) => setTipoSeleccionado(e.target.value)}
-                    >
-                        <option value="todos">Todos los tipos</option>
-                        <option value="pelicula">Película</option>
-                        <option value="serie">Serie</option>
-                    </select>
-                    </li>
-
-                    <li>
-                        
-                        <select
-                            className={styles.select}
-                            value={ordenSeleccionado}
-                            onChange={(e) => setOrdenSeleccionado(e.target.value)}>
-                            
-                            <option value="ninguno">Sin orden</option>
-                            <option value="anioAsc">Año ascendente</option>
-                            <option value="anioDesc">Año descendente</option>
-                            <option value="ratingAsc">Rating ascendente</option>
-                            <option value="ratingDesc">Rating descendente</option>
-                        </select>
-                    </li>
-
-                    <li>
-                        <button
-                            className={styles.botonAgregar}
-                            onClick={abrirFormularioAgregar}
-                        >
-                            Agregar contenido
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-
-            <section className={styles.seccionLista}>
-                <h2>Películas / series por ver</h2>
-                <p>Total: {peliculasNoVistas.length}</p>
-
-                {peliculasNoVistas.length === 0 ? (
-                    <p>No hay contenidos por ver.</p>
-                ) : (
-                    peliculasNoVistas.map((pelicula) => (
-                        <div key={pelicula.id} className={styles.itemPelicula}>
-                            <CharacterCard character={pelicula} />
-                                <div className={styles.accionesCard}>
-                                    <button className={styles.boton} onClick={() => cambiarEstadoVisto(pelicula.id)}>
-                                        Marcar como vista
-                                    </button>
-
-                                    <button className={styles.boton} onClick={() => abrirFormularioEditar(pelicula)}>
-                                        Editar
-                                    </button>
-
-                                    <button className={styles.botonEliminar}onClick={() => eliminarContenido(pelicula.id)}>
-                                        Eliminar
-                                    </button>
-                                </div>
-                        </div>
-                    ))
-                )}
-            </section>
-
-            <section className={styles.seccionLista}>
-                <h2>Películas / series vistas</h2>
-                <p>Total: {peliculasVistas.length}</p>
-
-                {peliculasVistas.length === 0 ? (
-                    <p>No hay contenidos vistos.</p>
-                ) : (
-                    peliculasVistas.map((pelicula) => (
-                        <div key={pelicula.id} className={styles.itemPelicula}>
-                            <CharacterCard character={pelicula} />
-                                <div className={styles.accionesCard}>
-                                    <button className={styles.boton} onClick={() => cambiarEstadoVisto(pelicula.id)}>
-                                        Marcar como no vista
-                                    </button>
-
-                                    <button className={styles.boton} onClick={() => abrirFormularioEditar(pelicula)}>
-                                        Editar
-                                    </button>
-                                    <button className={styles.botonEliminar} onClick={() => eliminarContenido(pelicula.id)}>
-                                        Eliminar
-                                    </button>
-                                </div>
-                        </div>
-                    ))
-                )}
-            </section>
+            <ContenidoList
+                titulo="Películas / series vistas"
+                peliculas={peliculasVistas}
+                textoBotonVisto="Marcar como no vista"
+                onCambiarEstado={cambiarEstadoVisto}
+                onEditar={abrirFormularioEditar}
+                onEliminar={eliminarContenido}
+            />
         </div>
     );{/** 
         <div className={styles.homeContainer}>

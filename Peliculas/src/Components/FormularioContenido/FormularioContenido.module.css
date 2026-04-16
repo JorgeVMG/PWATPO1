@@ -1,35 +1,42 @@
+.formularioContainer {
+    background-color: #f8f8f8;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.subtitulo {
+    margin-bottom: 16px;
+}
+
 .formulario {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 20px;
+}
+
+.input {
+    padding: 10px 12px;
     border: 1px solid #ccc;
-    border-radius: 12px;
-    background-color: #f8f8f8;
-    margin-bottom: 24px;
-}
-
-.subtitulo {
-    margin: 0 0 8px 0;
-}
-
-.input,
-.select {
-    padding: 10px;
-    border: 1px solid #bbb;
     border-radius: 8px;
-    font-size: 14px;
+}
+
+.select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.accionesFormulario {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
 }
 
 .boton {
-    padding: 10px 14px;
+    padding: 8px 12px;
     border: none;
     border-radius: 8px;
-    background-color: #222;
-    color: white;
     cursor: pointer;
-}
-
-.boton:hover {
-    opacity: 0.9;
 }
