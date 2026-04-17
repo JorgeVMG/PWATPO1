@@ -53,10 +53,10 @@ const FilterBar = ({
                     style={{ maxWidth: "190px" }}
                 >
                     <option value="ninguno">Sin orden</option>
-                    <option value="anio-asc">Año ascendente</option>
-                    <option value="anio-desc">Año descendente</option>
-                    <option value="rating-asc">Rating ascendente</option>
-                    <option value="rating-desc">Rating descendente</option>
+                    <option value="anioAsc">Año ascendente</option>
+                    <option value="anioDesc">Año descendente</option>
+                    <option value="ratingAsc">Rating ascendente</option>
+                    <option value="ratingDesc">Rating descendente</option>
                 </select>
 
                 <button
