@@ -450,54 +450,69 @@ export const Home = () => {
 
         setPeliculas(peliculasActualizadas);
     };
-    // className le da el estilo
+    // className le da el estilo    
     // value muestra el valor actual
     // onChange guarda la opcion elegida 
     return (
-        <div className={styles.homeContainer}>
+    <main className="container py-5" style={{ maxWidth: "1200px" }}>
+        <header className="mb-5 text-center">
             <Titulo texto="Gestor de películas y series" />
-                <FormularioContenido
-                    mostrarFormulario={mostrarFormulario}
-                    modoEdicion={modoEdicion}
-                    formulario={formulario}
-                    manejarCambioFormulario={manejarCambioFormulario}
-                    cerrarFormulario={cerrarFormulario}
-                    guardarContenido={guardarContenido}/>
+        </header>
 
-                <FilterBar
-                    busqueda={busqueda}
-                    setBusqueda={setBusqueda}
-                    generoSeleccionado={generoSeleccionado}
-                    setGeneroSeleccionado={setGeneroSeleccionado}
-                    tipoSeleccionado={tipoSeleccionado}
-                    setTipoSeleccionado={setTipoSeleccionado}
-                    ordenSeleccionado={ordenSeleccionado}
-                    setOrdenSeleccionado={setOrdenSeleccionado}
-                    abrirFormularioAgregar={abrirFormularioAgregar}/>
-
-            <ContenidoList
-                titulo="Películas / series por ver"
-                peliculas={peliculasNoVistas}
-                conteoGeneros={conteoGenerosNoVistas}
-                mensajeVacio={mensajeNoVistas}
-                textoBotonVisto="Marcar como vista"
-                onCambiarEstado={cambiarEstadoVisto}
-                onEditar={abrirFormularioEditar}
-                onEliminar={eliminarContenido}
+        <section className="mb-4">
+            <FormularioContenido
+                mostrarFormulario={mostrarFormulario}
+                modoEdicion={modoEdicion}
+                formulario={formulario}
+                manejarCambioFormulario={manejarCambioFormulario}
+                cerrarFormulario={cerrarFormulario}
+                guardarContenido={guardarContenido}
             />
+        </section>
 
-            <ContenidoList
-                titulo="Películas / series vistas"
-                peliculas={peliculasVistas}
-                conteoGeneros={conteoGenerosVistas}
-                mensajeVacio={mensajeVistas}
-                textoBotonVisto="Marcar como no vista"
-                onCambiarEstado={cambiarEstadoVisto}
-                onEditar={abrirFormularioEditar}
-                onEliminar={eliminarContenido}
+        <section className="mb-5">
+            <FilterBar
+                busqueda={busqueda}
+                setBusqueda={setBusqueda}
+                generoSeleccionado={generoSeleccionado}
+                setGeneroSeleccionado={setGeneroSeleccionado}
+                tipoSeleccionado={tipoSeleccionado}
+                setTipoSeleccionado={setTipoSeleccionado}
+                ordenSeleccionado={ordenSeleccionado}
+                setOrdenSeleccionado={setOrdenSeleccionado}
+                abrirFormularioAgregar={abrirFormularioAgregar}
             />
-        </div>
-    );
+        </section>
+
+        <section className="row g-4 align-items-start">
+            <div className="col-12 col-lg-6">
+                <ContenidoList
+                    titulo="Películas / series por ver"
+                    peliculas={peliculasNoVistas}
+                    conteoGeneros={conteoGenerosNoVistas}
+                    mensajeVacio={mensajeNoVistas}
+                    textoBotonVisto="Marcar como vista"
+                    onCambiarEstado={cambiarEstadoVisto}
+                    onEditar={abrirFormularioEditar}
+                    onEliminar={eliminarContenido}
+                />
+            </div>
+
+            <div className="col-12 col-lg-6">
+                <ContenidoList
+                    titulo="Películas / series vistas"
+                    peliculas={peliculasVistas}
+                    conteoGeneros={conteoGenerosVistas}
+                    mensajeVacio={mensajeVistas}
+                    textoBotonVisto="Marcar como no vista"
+                    onCambiarEstado={cambiarEstadoVisto}
+                    onEditar={abrirFormularioEditar}
+                    onEliminar={eliminarContenido}
+                />
+            </div>
+        </section>
+    </main>
+);
 }
 
 export default Home
