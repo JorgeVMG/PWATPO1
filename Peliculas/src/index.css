@@ -1,0 +1,68 @@
+:root {
+  --bg: #f5f2eb;
+  --card: #fdfaf5;
+  --text: #212529;
+  --muted: #6b7280;
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --primary-soft: #f5f3ff;
+  --border: #e5e7eb;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background-color: var(--bg) !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.card {
+  background-color: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.04) !important;
+}
+
+.form-control,
+.form-select {
+  border-radius: 0.8rem !important;
+  border: 1px solid var(--border) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.15) !important;
+}
+
+.badge {
+  background-color: var(--primary-soft) !important;
+  color: var(--primary) !important;
+  border: 1px solid rgba(139, 92, 246, 0.15) !important;
+  font-weight: 600;
+}
+
+.btn-dark {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.btn-dark:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+
+.text-secondary {
+  color: var(--muted) !important;
+} 

@@ -1,31 +1,31 @@
-import styles from "./CharacterCard.module.css";
-
 export const CharacterCard = ({ character }) => {
     return (
-        <article className={styles.card}>
-            <p className={styles.item}>
-                <span className={styles.label}>Título:</span> {character.titulo}
-            </p>
+        <article className="text-start">
+            <h3 className="h5 fw-semibold mb-3">{character.titulo}</h3>
 
-            <p className={styles.item}>
-                <span className={styles.label}>Director:</span> {character.director}
-            </p>
+            <div className="d-flex flex-column gap-2">
+                <p className="mb-0">
+                    <span className="fw-semibold">Director:</span> {character.director}
+                </p>
 
-            <p className={styles.item}>
-                <span className={styles.label}>Año:</span> {character.anio}
-            </p>
+                <p className="mb-0">
+                    <span className="fw-semibold">Año:</span> {character.anio}
+                </p>
+            </div>
 
-            <p className={styles.item}>
-                <span className={styles.label}>Género:</span> {character.genero}
-            </p>
+            <div className="d-flex flex-wrap gap-2 mt-3">
+                <span className="badge text-bg-light border rounded-pill px-3 py-2">
+                    {character.genero}
+                </span>
 
-            <p className={styles.item}>
-                <span className={styles.label}>Rating:</span> {character.rating}
-            </p>
+                <span className="badge text-bg-light border rounded-pill px-3 py-2 text-capitalize">
+                    {character.tipo}
+                </span>
 
-            <p className={styles.item}>
-                <span className={styles.label}>Tipo:</span> {character.tipo}
-            </p>
+                <span className="badge text-bg-light border rounded-pill px-3 py-2">
+                    Rating: {character.rating}
+                </span>
+            </div>
         </article>
     );
 };

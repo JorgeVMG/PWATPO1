@@ -13,63 +13,66 @@ const ContenidoList = ({
 }) => {
     return (
         <section className={styles.columnaLista}>
-            <h2>{titulo}</h2>
-            <p>Total: {peliculas.length}</p>
+            <div className="mb-4">
+                <h2 className="fw-semibold mb-2">{titulo}</h2>
+                <p className="text-secondary mb-3">Total: {peliculas.length}</p>
 
-            {/* RESUMEN POR GÉNERO:
-                Primero usamos Object.keys(conteoGeneros) para obtener un array
-                con los nombres de los géneros cargados en el objeto.
-                Si el objeto no está vacío, recorremos esas claves con map().
-            
-                En cada vuelta:
-                - "genero" representa el nombre de una clave, por ejemplo "Drama"
-                - conteoGeneros[genero] busca la cantidad asociada a esa clave
-            
-                Así podemos mostrar en pantalla algo como:
-                Drama: 2
-                Comedia: 1
-            */}
-            {Object.keys(conteoGeneros).length > 0 && (
-                <div className={styles.resumenGeneros}>
-                    {Object.keys(conteoGeneros).map((genero) => (
-                        <p key={genero} className={styles.generoItem}>
-                            {genero}: {conteoGeneros[genero]}
-                        </p>
-                    ))}
-                </div>
-            )}
+                {Object.keys(conteoGeneros).length > 0 && (
+                    <div className="d-flex flex-wrap gap-2">
+                        {Object.keys(conteoGeneros).map((genero) => (
+                            <span
+                                key={genero}
+                                className="badge text-bg-light border rounded-pill px-3 py-2"
+                            >
+                                {genero}: {conteoGeneros[genero]}
+                            </span>
+                        ))}
+                    </div>
+                )}
+            </div>
 
             {peliculas.length === 0 ? (
-                <p>{mensajeVacio}</p>
-            ) : (
-                peliculas.map((pelicula) => (
-                    <div key={pelicula.id} className={styles.itemPelicula}>
-                        <CharacterCard character={pelicula} />
-
-                        <div className={styles.accionesCard}>
-                            <button
-                                className={styles.boton}
-                                onClick={() => onCambiarEstado(pelicula.id)}
-                            >
-                                {textoBotonVisto}
-                            </button>
-
-                            <button
-                                className={styles.boton}
-                                onClick={() => onEditar(pelicula)}
-                            >
-                                Editar
-                            </button>
-
-                            <button
-                                className={styles.botonEliminar}
-                                onClick={() => onEliminar(pelicula.id)}
-                            >
-                                Eliminar
-                            </button>
-                        </div>
+                <div className="card border-0 shadow-sm rounded-4">
+                    <div className="card-body p-4">
+                        <p className="text-secondary mb-0">{mensajeVacio}</p>
                     </div>
-                ))
+                </div>
+            ) : (
+                <div className="d-flex flex-column gap-4">
+                    {peliculas.map((pelicula) => (
+                        <div
+                            key={pelicula.id}
+                            className="card border-0 shadow-sm rounded-4"
+                        >
+                            <div className="card-body p-4">
+                                <CharacterCard character={pelicula} />
+
+                                <div className="d-flex flex-wrap gap-2 mt-4">
+                                    <button
+                                        className="btn btn-dark"
+                                        onClick={() => onCambiarEstado(pelicula.id)}
+                                    >
+                                        {textoBotonVisto}
+                                    </button>
+
+                                    <button
+                                        className="btn btn-outline-secondary"
+                                        onClick={() => onEditar(pelicula)}
+                                    >
+                                        Editar
+                                    </button>
+
+                                    <button
+                                        className="btn btn-outline-danger"
+                                        onClick={() => onEliminar(pelicula.id)}
+                                    >
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             )}
         </section>
     );
