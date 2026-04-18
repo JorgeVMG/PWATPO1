@@ -39,7 +39,12 @@ Para mantener un código limpio y escalable, hemos divido la lógica en componen
 
 ### ⚡ Punto de Entrada
 * **`App.jsx`**: Es el componente raíz que orquesta la carga de la página principal, envolviendo toda la experiencia del usuario bajo una estructura única.
-* **`package-lock.json`**:
+
+* **`main.jsx`**: Su función principal es conectar el componente raíz (`App`) con el archivo HTML real que ve el usuario. Utiliza herramientas como `ReactDOM` para inyectar la lógica de React dentro de un contenedor.
+
+* **`index.css`**: Contiene los estilos globales, definen reglas que afectan a toda la aplicación, como tipografías base, reseteo de márgenes y variables de colores principales
+
+* **`package.json`**: Contiene metadatos importantes como el nombre y versión del proyecto, los scripts para ejecutar o buildear la app y la lista de dependencias necesarias para que el código funcione.
 
 ---
 
